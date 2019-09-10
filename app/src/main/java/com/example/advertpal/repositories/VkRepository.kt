@@ -4,8 +4,6 @@ import com.example.advertpal.services.VkService
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import ru.timekeeper.data.network.model.groupWallRemote.Group
-import ru.timekeeper.data.network.model.groupWallRemote.Item
 
 class VkRepository(private val vkService: VkService) {
 
@@ -25,7 +23,7 @@ class VkRepository(private val vkService: VkService) {
                 it.response
             }
 
-    fun getGroupPosts(
+    /*fun getGroupPosts(
         count: String = "10", token: String,
         currentPage: Int = 0, pagSize: Int = 10
     ): Single<List<Item>> {
@@ -34,5 +32,5 @@ class VkRepository(private val vkService: VkService) {
             .map {
                 it.response?.items
             }
-    }
+    }*/
 }

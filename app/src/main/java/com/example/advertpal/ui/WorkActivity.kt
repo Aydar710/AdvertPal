@@ -1,5 +1,6 @@
 package com.example.advertpal.ui
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeUnit
 
 class WorkActivity : MvpAppCompatActivity(), WorkActivityView {
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_work)
@@ -25,8 +27,6 @@ class WorkActivity : MvpAppCompatActivity(), WorkActivityView {
         btn_start_job.setOnClickListener {
             startWork()
         }
-
-
     }
 
     private fun startWork() {

@@ -39,6 +39,7 @@ class PostWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
                 Log.i("WorkState", "Post made, id : $postId")
             }, {
                 it.printStackTrace()
+                Log.i("WorkState", "Failed to make post")
             })
     }
 
@@ -49,6 +50,7 @@ class PostWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
                 Log.i("WorkState", "Post deleted, id : $it")
             },{
                 it.printStackTrace()
+                Log.i("WorkState", "Failed to delete post")
             })
     }
 

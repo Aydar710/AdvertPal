@@ -16,8 +16,11 @@ class SharedPrefWrapper(context: Context) {
         }
     }
 
-    fun getToken(): String =
-        sPref.getString(SHARED_PREF_TOKEN_KEY, "")
+    fun getToken(): String {
+        return "ca0db8569c1d89491898b24f9ec10b7146203ccd6b7a2171ddef24f3285650c0ad6bc847cff6c865c6bb7"
+        //sPref.getString(SHARED_PREF_TOKEN_KEY, "")
+        //TODO: Return actual token
+    }
 
     fun savePostId(id: Int) {
         sPref.edit().run {
