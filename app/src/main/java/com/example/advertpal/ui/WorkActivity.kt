@@ -20,10 +20,6 @@ class WorkActivity : MvpAppCompatActivity(), WorkActivityView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_work)
 
-        /*val info = WorkManager.getInstance().getWorkInfosByTag("TAG")
-        val list = info?.get()[0].outputData
-        print("")*/
-
         btn_start_job.setOnClickListener {
             startWork()
         }

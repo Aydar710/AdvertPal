@@ -1,43 +1,49 @@
 package com.example.advertpal.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import com.example.advertpal.App
+import com.example.advertpal.utils.AUTH_URL
 import com.example.advertpal.utils.SharedPrefWrapper
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.auth.VKAccessToken
-import com.vk.api.sdk.auth.VKAuthCallback
+import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var sPref : SharedPrefWrapper
+
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.advertpal.R.layout.activity_main)
+        App.component.inject(this)
 
-        /*val fingerprints = VKUtils.getCertificateFingerprint(this, this.packageName)
-        print(Arrays.toString(fingerprints))
-        VK.login(this, arrayListOf(VKScope.WALL, VKScope.GROUPS))*/
-        val intent = Intent(this@MainActivity, WorkActivity::class.java)
-        startActivity(intent)
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val callback = object : VKAuthCallback {
-            override fun onLogin(token: VKAccessToken) {
-                // User passed authorization
-                val sPref = SharedPrefWrapper(this@MainActivity)
-                sPref.saveToken(token.accessToken)
-                val intent = Intent(this@MainActivity, WorkActivity::class.java)
-                startActivity(intent)
-            }
+        wv_auth.loadUrl(AUTH_URL)
+        wv_auth.settings.javaScriptEnabled = true
+        wv_auth.webViewClient = object : WebViewClient() {
 
-            override fun onLoginFailed(errorCode: Int) {
-                // User didn't pass authorization
+            override fun onPageFinished(view: WebView?, url: String?) {
+
+                val splittedUrl = url?.split("access_token=")
+
+                if (splittedUrl?.size?.compareTo(1) != 0) {
+                    splittedUrl?.let {
+                        val token = it[1].split("&")[0]
+                        sPref.saveToken(token)
+                        startActivity(Intent(this@MainActivity, WorkActivity::class.java))
+                        finish()
+                    }
+                }
+                super.onPageFinished(view, url)
             }
         }
-        if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
+        wv_auth.loadUrl(AUTH_URL)
     }
 }

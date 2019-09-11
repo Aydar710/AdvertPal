@@ -25,4 +25,6 @@ interface AppComponent {
     fun inject(postWorker: PostWorker)
 
     fun inject (workActivity: WorkActivity)
+
+    fun inject (mainActivity: MainActivity)
 }
