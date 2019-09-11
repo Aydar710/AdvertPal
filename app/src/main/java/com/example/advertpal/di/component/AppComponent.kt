@@ -3,7 +3,7 @@ package com.example.advertpal.di.component
 import android.content.Context
 import com.example.advertpal.di.module.*
 import com.example.advertpal.ui.MainActivity
-import com.example.advertpal.ui.WorkActivity
+import com.example.advertpal.ui.AddWorkActivity
 import com.example.advertpal.utils.PostWorker
 import dagger.Component
 import javax.inject.Singleton
@@ -24,7 +24,7 @@ interface AppComponent {
 
     fun inject(postWorker: PostWorker)
 
-    fun inject (workActivity: WorkActivity)
+    fun inject (workActivity: AddWorkActivity)
 
     fun inject (mainActivity: MainActivity)
 }

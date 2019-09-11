@@ -10,15 +10,15 @@ import com.example.advertpal.R
 import com.example.advertpal.utils.POST_TEXT_KEY
 import com.example.advertpal.utils.PostWorker
 import com.example.advertpal.views.WorkActivityView
-import kotlinx.android.synthetic.main.activity_work.*
+import kotlinx.android.synthetic.main.activity_add_work.*
 import java.util.concurrent.TimeUnit
 
-class WorkActivity : MvpAppCompatActivity(), WorkActivityView {
+class AddWorkActivity : MvpAppCompatActivity(), WorkActivityView {
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_work)
+        setContentView(R.layout.activity_add_work)
 
         btn_start_job.setOnClickListener {
             startWork()
@@ -34,8 +34,10 @@ class WorkActivity : MvpAppCompatActivity(), WorkActivityView {
             .putString(POST_TEXT_KEY, et_post_text.text.toString())
             .build()
 
+        val etPeriodicity = et_post_periodic.text.toString()
+        val periodicity = if (etPeriodicity.isNotEmpty()) etPeriodicity.toInt() else 15
         val periodicPostWorkRequest = PeriodicWorkRequest
-            .Builder(PostWorker::class.java, 1, TimeUnit.MINUTES)
+            .Builder(PostWorker::class.java, periodicity.toLong(), TimeUnit.MINUTES)
             .setConstraints(constraints)
             .setInputData(data)
             .addTag("TAG")

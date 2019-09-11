@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                     splittedUrl?.let {
                         val token = it[1].split("&")[0]
                         sPref.saveToken(token)
-                        startActivity(Intent(this@MainActivity, WorkActivity::class.java))
+                        startActivity(Intent(this@MainActivity, WorksActivity::class.java))
                         finish()
                     }
                 }
