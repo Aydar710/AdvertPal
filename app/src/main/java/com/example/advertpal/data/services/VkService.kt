@@ -1,7 +1,8 @@
-package com.example.advertpal.services
+package com.example.advertpal.data.services
 
-import com.example.advertpal.models.wallpost.DeletedPostResponse
-import com.example.advertpal.models.wallpost.PostResponseWrapper
+import com.example.advertpal.data.models.groups.GroupsResponseWrapper
+import com.example.advertpal.data.models.wallpost.DeletedPostResponse
+import com.example.advertpal.data.models.wallpost.PostResponseWrapper
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -23,11 +24,12 @@ interface VkService {
         @Query("access_token") access_token: String
     ): Single<DeletedPostResponse>
 
-    /*@GET("wall.get")
-    fun getGroupPosts(
-        @Query("owner_id") ownerId: String = "-183072058",
-        @Query("count") count: String = "10",
-        @Query("offset") offset: String = "0",
-        @Query("access_token") access_token: String
-    ): Single<GroupWallResponseWrapper>*/
+    @GET("groups.get")
+    fun getUsersGroups(
+        @Query("user_id") userId: String,
+        @Query("extended") extended: String = "1",
+        @Query("count") count: String = "15",
+        @Query("access_token") token: String,
+        @Query("offset") offset: String = ""
+    ): Single<GroupsResponseWrapper>
 }

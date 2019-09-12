@@ -1,4 +1,4 @@
-package com.example.advertpal.models.wallpost
+package com.example.advertpal.data.models.wallpost
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

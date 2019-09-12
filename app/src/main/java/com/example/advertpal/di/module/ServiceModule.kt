@@ -1,6 +1,6 @@
 package com.example.advertpal.di.module
 
-import com.example.advertpal.services.VkService
+import com.example.advertpal.data.services.VkService
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit

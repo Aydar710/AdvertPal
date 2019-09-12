@@ -1,6 +1,7 @@
-package com.example.advertpal.repositories
+package com.example.advertpal.data.repositories
 
-import com.example.advertpal.services.VkService
+import com.example.advertpal.data.models.groups.Group
+import com.example.advertpal.data.services.VkService
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -23,14 +24,16 @@ class VkRepository(private val vkService: VkService) {
                 it.response
             }
 
-    /*fun getGroupPosts(
-        count: String = "10", token: String,
-        currentPage: Int = 0, pagSize: Int = 10
-    ): Single<List<Item>> {
-        return vkService.getGroupPosts(count = count, access_token = token, offset = "${currentPage * pagSize}")
+    fun getUserGroups(
+        userId: String,
+        token: String,
+        count: String = "15",
+        currentPage: Int = 0,
+        pageSize: Int = 0
+    ): Single<List<Group>> =
+        vkService.getUsersGroups(userId, count, token = token, offset = "${currentPage * pageSize}")
             .subscribeOn(Schedulers.io())
             .map {
                 it.response?.items
             }
-    }*/
 }

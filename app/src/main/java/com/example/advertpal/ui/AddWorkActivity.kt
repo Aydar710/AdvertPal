@@ -3,17 +3,16 @@ package com.example.advertpal.ui
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import androidx.work.*
-import com.arellomobile.mvp.MvpAppCompatActivity
 import com.example.advertpal.R
 import com.example.advertpal.utils.POST_TEXT_KEY
 import com.example.advertpal.utils.PostWorker
-import com.example.advertpal.views.WorkActivityView
 import kotlinx.android.synthetic.main.activity_add_work.*
 import java.util.concurrent.TimeUnit
 
-class AddWorkActivity : MvpAppCompatActivity(), WorkActivityView {
+class AddWorkActivity : AppCompatActivity() {
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {

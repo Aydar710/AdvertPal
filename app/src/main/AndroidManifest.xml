@@ -14,7 +14,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.WorksActivity" />
+        <activity android:name=".features.groups.GroupsActivity" />
         <activity
                 android:name=".ui.AddWorkActivity"
                 android:windowSoftInputMode="stateHidden|adjustPan" />

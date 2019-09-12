@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.example.advertpal.App
+import com.example.advertpal.features.groups.GroupsActivity
 import com.example.advertpal.utils.AUTH_URL
 import com.example.advertpal.utils.SharedPrefWrapper
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                     splittedUrl?.let {
                         val token = it[1].split("&")[0]
                         sPref.saveToken(token)
-                        startActivity(Intent(this@MainActivity, WorksActivity::class.java))
+                        startActivity(Intent(this@MainActivity, GroupsActivity::class.java))
                         finish()
                     }
                 }
