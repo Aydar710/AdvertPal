@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp">
+
+    <ImageView
+            android:id="@+id/iv_group"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars[0]" />
+
+    <TextView
+            android:id="@+id/tv_group_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintRight_toLeftOf="@id/ic_delete"
+            android:layout_marginTop="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@id/iv_group"
+            app:layout_constraintTop_toTopOf="@id/iv_group"
+            tools:text="Group Name" />
+
+    <TextView
+            android:id="@+id/tv_post_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            app:layout_constraintRight_toLeftOf="@id/ic_delete"
+            app:layout_constraintBottom_toBottomOf="@id/iv_group"
+            app:layout_constraintLeft_toRightOf="@id/iv_group"
+            app:layout_constraintTop_toBottomOf="@id/tv_group_name"
+            tools:text="adlasdll,asdasd" />
+
+    <ImageView
+            android:id="@+id/ic_delete"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:layout_marginRight="16dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
