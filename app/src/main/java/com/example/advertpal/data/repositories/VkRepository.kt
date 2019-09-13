@@ -8,16 +8,20 @@ import io.reactivex.schedulers.Schedulers
 
 class VkRepository(private val vkService: VkService) {
 
-    fun makePost(message: String, token: String): Single<Int> =
-        vkService.makePost(message = message, access_token = token)
+    fun makePost(message: String, token: String, groupId: String): Single<Int> =
+        vkService.makePost(message = message, access_token = token, ownerId = "-$groupId")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {
                 it.response?.postId
             }
 
-    fun deletePost(postId: Int, token: String): Single<Int> =
-        vkService.deletePost(postId = postId.toString(), access_token = token)
+    fun deletePost(postId: Int, token: String, groupId: String): Single<Int> =
+        vkService.deletePost(
+            postId = postId.toString(),
+            access_token = token,
+            ownerId = "-$groupId"
+        )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {

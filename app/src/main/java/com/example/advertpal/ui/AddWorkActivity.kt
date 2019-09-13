@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import androidx.work.*
 import com.example.advertpal.R
+import com.example.advertpal.utils.GROUP_ID_KEY
 import com.example.advertpal.utils.POST_TEXT_KEY
 import com.example.advertpal.utils.PostWorker
+import com.example.advertpal.utils.WorkDataKeyGenerator
 import kotlinx.android.synthetic.main.activity_add_work.*
 import java.util.concurrent.TimeUnit
 
@@ -24,13 +26,14 @@ class AddWorkActivity : AppCompatActivity() {
         }
     }
 
-    private fun startWork() {
+    private fun startWork(groupId: String) {
         val constraints: Constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
         val data = Data.Builder()
             .putString(POST_TEXT_KEY, et_post_text.text.toString())
+            .putString(GROUP_ID_KEY, groupId)
             .build()
 
         val etPeriodicity = et_post_periodic.text.toString()

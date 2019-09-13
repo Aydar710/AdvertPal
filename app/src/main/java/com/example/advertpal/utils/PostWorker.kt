@@ -33,25 +33,31 @@ class PostWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
     @SuppressLint("CheckResult")
     private fun makePost(post_id: Int) {
         val text = inputData.getString(POST_TEXT_KEY)
-        vkRepository.makePost("$text : $post_id", sPref.getToken())
-            .subscribe({ postId ->
-                sPref.savePostId(postId)
-                Log.i("WorkState", "Post made, id : $postId")
-            }, {
-                it.printStackTrace()
-                Log.i("WorkState", "Failed to make post")
-            })
+        val groupId = inputData.getString(GROUP_ID_KEY)
+        groupId?.let {
+            vkRepository.makePost("$text : $post_id", sPref.getToken(), it)
+                .subscribe({ postId ->
+                    sPref.savePostId(postId)
+                    Log.i("WorkState", "Post made, id : $postId")
+                }, {
+                    it.printStackTrace()
+                    Log.i("WorkState", "Failed to make post")
+                })
+        }
     }
 
     @SuppressLint("CheckResult")
     private fun deletePost(postId: Int) {
-        vkRepository.deletePost(postId, sPref.getToken())
-            .subscribe({
-                Log.i("WorkState", "Post deleted, id : $it")
-            },{
-                it.printStackTrace()
-                Log.i("WorkState", "Failed to delete post")
-            })
+        val groupId = inputData.getString(GROUP_ID_KEY)
+        groupId?.let {
+            vkRepository.deletePost(postId, sPref.getToken(), it)
+                .subscribe({
+                    Log.i("WorkState", "Post deleted, id : $it")
+                },{
+                    it.printStackTrace()
+                    Log.i("WorkState", "Failed to delete post")
+                })
+        }
     }
 
 }
