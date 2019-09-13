@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import com.example.advertpal.App
 import com.example.advertpal.R
 import com.example.advertpal.ui.AddWorkActivity
+import com.example.advertpal.utils.GROUP_ID_KEY
 import kotlinx.android.synthetic.main.activity_groups.*
 import javax.inject.Inject
 
@@ -26,12 +27,11 @@ class GroupsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_groups)
         App.component.inject(this)
 
-        fb_add.setOnClickListener {
-            startActivity(Intent(this, AddWorkActivity::class.java))
-        }
-
         viewModel = ViewModelProviders.of(this, viewModelFactory)[GroupsViewModel::class.java]
-        adapter = GroupsAdapter { }
+
+        adapter = GroupsAdapter {
+            startAddingActivity(it.toString())
+        }
         rv_groups.adapter = adapter
         initObservers()
         viewModel.showGroups("116812347")
@@ -41,5 +41,12 @@ class GroupsActivity : AppCompatActivity() {
         viewModel.groupsLiveData.observe(this, Observer {
             adapter.submitList(it)
         })
+    }
+
+    private fun startAddingActivity(groupId: String) {
+        val intent = Intent(this, AddWorkActivity::class.java).apply {
+            putExtra(GROUP_ID_KEY, groupId)
+        }
+        startActivity(intent)
     }
 }

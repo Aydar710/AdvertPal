@@ -20,13 +20,13 @@ class SharedPrefWrapper(context: Context) {
         sPref.getString(SHARED_PREF_TOKEN_KEY, "")
 
 
-    fun savePostId(id: Int) {
+    fun savePostId(id: Int, groupId : String) {
         sPref.edit().run {
-            putInt(SHARED_PREF_POST_ID_KEY, id)
+            putInt(SHARED_PREF_POST_ID_KEY + groupId, id)
                 .apply()
         }
     }
 
-    fun getPostId(): Int =
-        sPref.getInt(SHARED_PREF_POST_ID_KEY, -1)
+    fun getPostId(groupId: String): Int =
+        sPref.getInt(SHARED_PREF_POST_ID_KEY + groupId, -1)
 }

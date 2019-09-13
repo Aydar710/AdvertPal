@@ -35,7 +35,7 @@ class GroupsAdapter(
             txt_group_name.text = group.name
 
             containerView.setOnClickListener {
-                //listItemClickListener.onVkGroupClicked(group)
+                group.id?.let { groupId -> listitemClickListener.invoke(groupId) }
             }
 
             Picasso.get()

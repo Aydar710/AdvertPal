@@ -10,7 +10,6 @@ import com.example.advertpal.R
 import com.example.advertpal.utils.GROUP_ID_KEY
 import com.example.advertpal.utils.POST_TEXT_KEY
 import com.example.advertpal.utils.PostWorker
-import com.example.advertpal.utils.WorkDataKeyGenerator
 import kotlinx.android.synthetic.main.activity_add_work.*
 import java.util.concurrent.TimeUnit
 
@@ -20,9 +19,10 @@ class AddWorkActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_work)
+        val groupId = intent.getStringExtra(GROUP_ID_KEY)
 
         btn_start_job.setOnClickListener {
-            startWork()
+            startWork(groupId)
         }
     }
 
@@ -42,7 +42,7 @@ class AddWorkActivity : AppCompatActivity() {
             .Builder(PostWorker::class.java, periodicity.toLong(), TimeUnit.MINUTES)
             .setConstraints(constraints)
             .setInputData(data)
-            .addTag("TAG")
+            .addTag(groupId)
             .build()
 
         WorkManager.getInstance().enqueue(periodicPostWorkRequest)

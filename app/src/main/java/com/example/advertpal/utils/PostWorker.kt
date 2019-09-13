@@ -19,7 +19,11 @@ class PostWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
 
     override fun doWork(): Result {
         App.component.inject(this)
-        val postId = sPref.getPostId()
+        val groupId = inputData.getString(GROUP_ID_KEY)
+
+        val postId = if (groupId != null)
+            sPref.getPostId(groupId)
+        else -1
 
         if (postId != -1) {
             deletePost(postId)
@@ -37,7 +41,7 @@ class PostWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         groupId?.let {
             vkRepository.makePost("$text : $post_id", sPref.getToken(), it)
                 .subscribe({ postId ->
-                    sPref.savePostId(postId)
+                    sPref.savePostId(postId, groupId)
                     Log.i("WorkState", "Post made, id : $postId")
                 }, {
                     it.printStackTrace()
@@ -49,11 +53,11 @@ class PostWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
     @SuppressLint("CheckResult")
     private fun deletePost(postId: Int) {
         val groupId = inputData.getString(GROUP_ID_KEY)
-        groupId?.let {
-            vkRepository.deletePost(postId, sPref.getToken(), it)
+        groupId?.let {groupId ->
+            vkRepository.deletePost(postId, sPref.getToken(), groupId)
                 .subscribe({
                     Log.i("WorkState", "Post deleted, id : $it")
-                },{
+                }, {
                     it.printStackTrace()
                     Log.i("WorkState", "Failed to delete post")
                 })
