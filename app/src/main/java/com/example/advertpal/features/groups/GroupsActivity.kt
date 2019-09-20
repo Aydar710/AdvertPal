@@ -10,6 +10,7 @@ import com.example.advertpal.App
 import com.example.advertpal.R
 import com.example.advertpal.ui.AddWorkActivity
 import com.example.advertpal.utils.GROUP_ID_KEY
+import com.example.advertpal.utils.SharedPrefWrapper
 import kotlinx.android.synthetic.main.activity_groups.*
 import javax.inject.Inject
 
@@ -21,6 +22,9 @@ class GroupsActivity : AppCompatActivity() {
     private lateinit var viewModel: GroupsViewModel
 
     private lateinit var adapter: GroupsAdapter
+
+    @Inject
+    lateinit var sPref : SharedPrefWrapper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +38,7 @@ class GroupsActivity : AppCompatActivity() {
         }
         rv_groups.adapter = adapter
         initObservers()
-        viewModel.showGroups("116812347")
+        viewModel.showGroups(sPref.getUserId())
     }
 
     private fun initObservers() {

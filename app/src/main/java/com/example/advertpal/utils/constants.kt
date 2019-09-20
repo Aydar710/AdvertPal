@@ -6,6 +6,8 @@ const val SHARED_PREF_TOKEN_KEY = "tokenKey"
 
 const val SHARED_PREF_POST_ID_KEY = "postIdKey"
 
+const val SHARED_PREF_USERID_KEY = "userId"
+
 const val VK_API_BASE_URL = "https://api.vk.com/method/"
 
 const val QUERY_PARAMETER_VERSION_NAME = "v"

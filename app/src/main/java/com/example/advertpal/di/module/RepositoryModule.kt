@@ -1,5 +1,6 @@
 package com.example.advertpal.di.module
 
+import com.example.advertpal.data.repositories.FireStoreRepository
 import com.example.advertpal.data.repositories.VkRepository
 import com.example.advertpal.data.services.VkService
 import dagger.Module
@@ -14,4 +15,8 @@ class RepositoryModule {
     fun provideVkRepository(vkService: VkService)
             : VkRepository =
         VkRepository(vkService)
+
+    @Singleton
+    @Provides
+    fun provideFirestoreRepository(): FireStoreRepository = FireStoreRepository()
 }

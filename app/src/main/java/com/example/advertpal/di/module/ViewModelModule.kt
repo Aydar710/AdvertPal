@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import com.example.advertpal.base.ViewModelFactory
 import com.example.advertpal.base.ViewModelKey
 import com.example.advertpal.features.groups.GroupsViewModel
+import com.example.advertpal.features.works.WorksViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -17,6 +18,13 @@ abstract class ViewModelModule {
     @ViewModelKey(GroupsViewModel::class)
     internal abstract fun bindGroupsViewModel(
         viewModel: GroupsViewModel
+    ): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(WorksViewModel::class)
+    internal abstract fun bindWorksViewModel(
+        viewModel: WorksViewModel
     ): ViewModel
 
     @Binds
