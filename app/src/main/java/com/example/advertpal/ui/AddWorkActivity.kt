@@ -10,8 +10,9 @@ import android.util.Log
 import androidx.work.*
 import com.example.advertpal.App
 import com.example.advertpal.R
+import com.example.advertpal.data.models.groups.Group
 import com.example.advertpal.features.works.WorksViewModel
-import com.example.advertpal.utils.GROUP_ID_KEY
+import com.example.advertpal.utils.GROUP_KEY
 import com.example.advertpal.utils.POST_TEXT_KEY
 import com.example.advertpal.utils.PostWorker
 import com.example.advertpal.utils.SharedPrefWrapper
@@ -37,17 +38,17 @@ class AddWorkActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_work)
         App.component.inject(this)
         viewHolder = AddWorkViewHolder(this)
-        val groupId = intent.getStringExtra(GROUP_ID_KEY)
+        val group = intent.getSerializableExtra(GROUP_KEY)
 
         btn_start_job.setOnClickListener {
-            startWork(groupId)
+            startWork(group as Group)
         }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[WorksViewModel::class.java]
     }
 
-    private fun startWork(groupId: String) {
-        val work = viewHolder.getWork(groupId)
+    private fun startWork(group: Group) {
+        val work = viewHolder.getWork(group.id.toString())
 
         val constraints: Constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -55,7 +56,7 @@ class AddWorkActivity : AppCompatActivity() {
 
         val data = Data.Builder()
             .putString(POST_TEXT_KEY, work.text)
-            .putString(GROUP_ID_KEY, work.groupId)
+            .putString(GROUP_KEY, work.groupId)
             .build()
 
         val periodicity = if (work.periodicity.isNotEmpty()) work.periodicity.toInt() else 15
@@ -63,11 +64,11 @@ class AddWorkActivity : AppCompatActivity() {
             .Builder(PostWorker::class.java, periodicity.toLong(), TimeUnit.MINUTES)
             .setConstraints(constraints)
             .setInputData(data)
-            .addTag(groupId)
+            .addTag(work.groupId)
             .build()
 
         WorkManager.getInstance().enqueue(periodicPostWorkRequest)
-        viewModel.addWork(work, sPref.getUserId())
+        viewModel.addWork(work, sPref.getUserId(), group)
 
         WorkManager.getInstance().getWorkInfoByIdLiveData(periodicPostWorkRequest.id)
             .observe(this, Observer {

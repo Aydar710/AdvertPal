@@ -8,8 +8,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.example.advertpal.App
 import com.example.advertpal.R
+import com.example.advertpal.data.models.groups.Group
 import com.example.advertpal.ui.AddWorkActivity
-import com.example.advertpal.utils.GROUP_ID_KEY
+import com.example.advertpal.utils.GROUP_KEY
 import com.example.advertpal.utils.SharedPrefWrapper
 import kotlinx.android.synthetic.main.activity_groups.*
 import javax.inject.Inject
@@ -34,7 +35,7 @@ class GroupsActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[GroupsViewModel::class.java]
 
         adapter = GroupsAdapter {
-            startAddingActivity(it.toString())
+            startAddingActivity(it)
         }
         rv_groups.adapter = adapter
         initObservers()
@@ -47,9 +48,9 @@ class GroupsActivity : AppCompatActivity() {
         })
     }
 
-    private fun startAddingActivity(groupId: String) {
+    private fun startAddingActivity(group: Group) {
         val intent = Intent(this, AddWorkActivity::class.java).apply {
-            putExtra(GROUP_ID_KEY, groupId)
+            putExtra(GROUP_KEY, group)
         }
         startActivity(intent)
     }

@@ -1,6 +1,7 @@
 package com.example.advertpal.data.repositories
 
 import android.util.Log
+import com.example.advertpal.data.models.groups.Group
 import com.example.advertpal.data.models.works.Work
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,11 +21,13 @@ class FireStoreRepository {
         }*/
     }
 
-    fun addWork(work: Work, userId: String) {
+    fun addWork(work: Work, userId: String, group : Group) {
         val workHashMap = hashMapOf(
             "groupId" to work.groupId,
             "text" to work.text,
-            "periodicity" to work.periodicity
+            "periodicity" to work.periodicity,
+            "groupImg" to group.photo200.toString(),
+            "groupName" to group.name.toString()
         )
 
         db.collection(userId).add(workHashMap as Map<String, Any>)

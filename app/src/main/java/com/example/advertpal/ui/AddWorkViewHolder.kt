@@ -11,6 +11,4 @@ class AddWorkViewHolder(private val activity: AddWorkActivity) {
             activity.et_post_text.text.toString(),
             activity.et_post_periodic.text.toString()
         )
-
-
 }

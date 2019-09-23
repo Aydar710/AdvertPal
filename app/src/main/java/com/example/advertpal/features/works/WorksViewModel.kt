@@ -1,6 +1,7 @@
 package com.example.advertpal.features.works
 
 import com.example.advertpal.base.BaseViewModel
+import com.example.advertpal.data.models.groups.Group
 import com.example.advertpal.data.models.works.Work
 import com.example.advertpal.data.repositories.FireStoreRepository
 import com.example.advertpal.utils.SharedPrefWrapper
@@ -13,7 +14,7 @@ class WorksViewModel
 ) : BaseViewModel() {
 
 
-    fun addWork(work : Work, userId : String){
-        repository.addWork(work, userId)
+    fun addWork(work : Work, userId : String, group : Group){
+        repository.addWork(work, userId, group)
     }
 }

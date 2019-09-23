@@ -2,6 +2,7 @@ package com.example.advertpal.data.models.groups
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Group(
 
@@ -40,4 +41,4 @@ data class Group(
         val photo200: String? = null,
 
         var isFavorite: Boolean = false
-)
+) : Serializable

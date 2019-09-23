@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_group.*
 import kotlinx.android.synthetic.main.item_group.view.*
 
 class GroupsAdapter(
-    private val listitemClickListener: (Int) -> Unit
+    private val listitemClickListener: (Group) -> Unit
 ) : ListAdapter<Group, GroupsAdapter.GroupHolder>(GroupDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): GroupHolder {
@@ -35,7 +35,7 @@ class GroupsAdapter(
             txt_group_name.text = group.name
 
             containerView.setOnClickListener {
-                group.id?.let { groupId -> listitemClickListener.invoke(groupId) }
+                group.let { group -> listitemClickListener.invoke(group) }
             }
 
             Picasso.get()
