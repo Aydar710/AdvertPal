@@ -8,7 +8,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_group"
             android:layout_width="52dp"
             android:layout_height="52dp"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:textColor="@android:color/darker_gray"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintRight_toLeftOf="@id/ic_delete"
             app:layout_constraintBottom_toBottomOf="@id/iv_group"
             app:layout_constraintLeft_toRightOf="@id/iv_group"

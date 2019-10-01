@@ -25,9 +25,12 @@ class WorksActivity : AppCompatActivity() {
         setContentView(R.layout.activity_works)
         App.component.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[WorksViewModel::class.java]
+
+        val adapter = WorksAdapter()
+        rv_works.adapter = adapter
         viewModel.getWorks("116812347")
             .subscribe({
-                print(it)
+                adapter.submitList(it)
             },{
                 it.printStackTrace()
             })

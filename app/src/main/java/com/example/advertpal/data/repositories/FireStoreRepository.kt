@@ -3,23 +3,12 @@ package com.example.advertpal.data.repositories
 import android.util.Log
 import com.example.advertpal.data.models.groups.Group
 import com.example.advertpal.data.models.works.Work
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Single
 
 class FireStoreRepository {
 
     private val db = FirebaseFirestore.getInstance()
-
-    private var maxId: Int = 1
-
-    init {
-        /*db.addSnapshotListener { snapshot, e ->
-            if (snapshot != null && !snapshot.isEmpty) {
-                maxId = snapshot.documents.size
-            }
-        }*/
-    }
 
     fun addWork(work: Work, userId: String) {
 
@@ -41,6 +30,7 @@ class FireStoreRepository {
                         val group = groupHashMap.toGroup()
 
                         val work = Work(
+                            id = document.get("id") as Long,
                             text = document.get("text") as String,
                             periodicity = document.get("periodicity") as String,
                             group = group
@@ -55,13 +45,6 @@ class FireStoreRepository {
                 }
         }
     }
-
-    private fun parseDocumentSnapshotToWork(snapshot: DocumentSnapshot): Work =
-        Work(
-            snapshot["groupId"].toString(),
-            snapshot["text"].toString(),
-            snapshot["group"] as Group
-        )
 
     fun HashMap<String, Any>.toGroup(): Group =
         Group(
