@@ -46,7 +46,22 @@ class FireStoreRepository {
         }
     }
 
-    fun HashMap<String, Any>.toGroup(): Group =
+    fun deleteWork(workId: Long, userId: String): Single<Boolean> {
+        return Single.create { singleEmitter ->
+            db.collection(userId)
+                .whereEqualTo("id", workId)
+                .get()
+                .addOnSuccessListener {
+                    db.collection(userId).document(it.documents[0].id).delete()
+                        .addOnSuccessListener {
+                            singleEmitter.onSuccess(true)
+                        }
+                }
+        }
+    }
+
+
+    private fun HashMap<String, Any>.toGroup(): Group =
         Group(
             id = this["id"] as Long,
             name = this["name"] as String,

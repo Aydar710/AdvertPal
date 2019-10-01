@@ -11,7 +11,9 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_work.view.*
 
-class WorksAdapter : ListAdapter<Work, WorksAdapter.WorkHolder>(WorksDiffCallback()) {
+class WorksAdapter(
+    private val onDeleteClickListener: (Long) -> Unit
+) : ListAdapter<Work, WorksAdapter.WorkHolder>(WorksDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): WorkHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_work, parent, false)
@@ -32,6 +34,10 @@ class WorksAdapter : ListAdapter<Work, WorksAdapter.WorkHolder>(WorksDiffCallbac
             Picasso.get()
                 .load(work.group?.photo100)
                 .into(containerView.iv_group)
+
+            containerView.ic_delete.setOnClickListener {
+                onDeleteClickListener.invoke(work.id)
+            }
         }
     }
 }
