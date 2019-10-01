@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(com.example.advertpal.R.layout.activity_main)
         App.component.inject(this)
 
-        sPref.saveToken("b0828ce425083255048db3e86305f52f409aeec5bd24fd30e2bdc451a1b1778fb7429353acb1f0adf3df1")
+        sPref.saveToken("de8a7757f0d43b6d9b66adf993773df0b1a2bfa4e66364fe12125debfcf60d9801e135af724de1c7f513c")
         sPref.saveUserId("116812347")
         startActivity(Intent(this@MainActivity, WorksActivity::class.java))
         finish()

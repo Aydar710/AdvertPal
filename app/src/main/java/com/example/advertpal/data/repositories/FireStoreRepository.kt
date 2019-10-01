@@ -5,6 +5,7 @@ import com.example.advertpal.data.models.groups.Group
 import com.example.advertpal.data.models.works.Work
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import io.reactivex.Single
 
 class FireStoreRepository {
 
@@ -29,26 +30,30 @@ class FireStoreRepository {
             }
     }
 
-    fun getWorks(userId: String): List<Work> {
-        val works = mutableListOf<Work>()
-        db.collection(userId)
-            .get()
-            .addOnSuccessListener {
-                for (document in it) {
-                    val groupHashMap = document?.get("group") as HashMap<String, Any>
-                    val group = groupHashMap.toGroup()
+    fun getWorks(userId: String): Single<List<Work>> {
+        return Single.create { singleEmitter ->
+            db.collection(userId)
+                .get()
+                .addOnSuccessListener {
+                    val works = mutableListOf<Work>()
+                    for (document in it) {
+                        val groupHashMap = document?.get("group") as HashMap<String, Any>
+                        val group = groupHashMap.toGroup()
 
-                    val work = Work(
-                        text = document.get("text") as String,
-                        periodicity = document.get("periodicity") as String,
-                        group = group
-                    )
+                        val work = Work(
+                            text = document.get("text") as String,
+                            periodicity = document.get("periodicity") as String,
+                            group = group
+                        )
 
-                    works.add(work)
+                        works.add(work)
+                    }
+                    singleEmitter.onSuccess(works)
                 }
-            }
-
-        return works
+                .addOnFailureListener {
+                    singleEmitter.onError(it)
+                }
+        }
     }
 
     private fun parseDocumentSnapshotToWork(snapshot: DocumentSnapshot): Work =
@@ -60,7 +65,7 @@ class FireStoreRepository {
 
     fun HashMap<String, Any>.toGroup(): Group =
         Group(
-            id = this["id"] as Int,
+            id = this["id"] as Long,
             name = this["name"] as String,
             photo50 = this["photo50"] as String,
             photo100 = this["photo100"] as String,

@@ -17,7 +17,7 @@ class WorksViewModel
         repository.addWork(work, userId)
     }
 
-    fun getWorks(userId: String) {
+    fun getWorks(userId: String) =
         repository.getWorks(userId)
-    }
+
 }

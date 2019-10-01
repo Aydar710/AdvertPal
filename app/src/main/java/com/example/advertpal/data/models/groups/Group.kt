@@ -8,7 +8,7 @@ data class Group(
 
     @SerializedName("id")
     @Expose
-    val id: Int? = null,
+    val id: Long? = null,
     @SerializedName("name")
     @Expose
     val name: String? = null,
