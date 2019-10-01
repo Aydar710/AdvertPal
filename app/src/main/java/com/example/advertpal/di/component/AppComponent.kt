@@ -3,6 +3,7 @@ package com.example.advertpal.di.component
 import android.content.Context
 import com.example.advertpal.di.module.*
 import com.example.advertpal.features.groups.GroupsActivity
+import com.example.advertpal.features.works.WorksActivity
 import com.example.advertpal.ui.AddWorkActivity
 import com.example.advertpal.ui.MainActivity
 import com.example.advertpal.utils.PostWorker
@@ -31,4 +32,6 @@ interface AppComponent {
     fun inject(mainActivity: MainActivity)
 
     fun inject(groupsActivity: GroupsActivity)
+
+    fun inject(worksActivity: WorksActivity)
 }

@@ -25,8 +25,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(com.example.advertpal.R.layout.activity_main)
         App.component.inject(this)
 
+        sPref.saveToken("b0828ce425083255048db3e86305f52f409aeec5bd24fd30e2bdc451a1b1778fb7429353acb1f0adf3df1")
+        sPref.saveUserId("116812347")
+        startActivity(Intent(this@MainActivity, WorksActivity::class.java))
+        finish()
 
-        wv_auth.loadUrl(AUTH_URL)
+
         wv_auth.settings.javaScriptEnabled = true
         wv_auth.webViewClient = object : WebViewClient() {
 

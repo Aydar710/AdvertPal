@@ -1,7 +1,9 @@
 package com.example.advertpal.data.models.works
 
+import com.example.advertpal.data.models.groups.Group
+
 data class Work(
-    val groupId: String,
     val text: String,
-    val periodicity: String
+    val periodicity: String,
+    var group : Group?
 )

@@ -17,47 +17,54 @@ class FireStoreRepository {
             if (snapshot != null && !snapshot.isEmpty) {
                 maxId = snapshot.documents.size
             }
-
         }*/
     }
 
-    fun addWork(work: Work, userId: String, group : Group) {
-        val workHashMap = hashMapOf(
-            "groupId" to work.groupId,
-            "text" to work.text,
-            "periodicity" to work.periodicity,
-            "groupImg" to group.photo200.toString(),
-            "groupName" to group.name.toString()
-        )
+    fun addWork(work: Work, userId: String) {
 
-        db.collection(userId).add(workHashMap as Map<String, Any>)
+        db.collection(userId)
+            .add(work)
             .addOnSuccessListener {
                 Log.i("Doc", it.id)
             }
     }
 
-    fun getWorks(groupId: String, userId: String): List<Work> {
+    fun getWorks(userId: String): List<Work> {
         val works = mutableListOf<Work>()
         db.collection(userId)
-            .whereEqualTo("groupId", groupId)
             .get()
             .addOnSuccessListener {
-                it.documents.forEach {snapshot ->
-                    works.add(
-                        parseDocumentSnaphotToWork(snapshot)
+                for (document in it) {
+                    val groupHashMap = document?.get("group") as HashMap<String, Any>
+                    val group = groupHashMap.toGroup()
+
+                    val work = Work(
+                        text = document.get("text") as String,
+                        periodicity = document.get("periodicity") as String,
+                        group = group
                     )
+
+                    works.add(work)
                 }
             }
 
         return works
     }
 
-    private fun parseDocumentSnaphotToWork(snapshot: DocumentSnapshot): Work =
+    private fun parseDocumentSnapshotToWork(snapshot: DocumentSnapshot): Work =
         Work(
             snapshot["groupId"].toString(),
             snapshot["text"].toString(),
-            snapshot["periodicity"].toString()
+            snapshot["group"] as Group
         )
 
+    fun HashMap<String, Any>.toGroup(): Group =
+        Group(
+            id = this["id"] as Int,
+            name = this["name"] as String,
+            photo50 = this["photo50"] as String,
+            photo100 = this["photo100"] as String,
+            photo200 = this["photo200"] as String
 
+        )
 }

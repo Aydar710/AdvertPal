@@ -10,7 +10,7 @@ import com.example.advertpal.App
 import com.example.advertpal.R
 import com.example.advertpal.data.models.groups.Group
 import com.example.advertpal.ui.AddWorkActivity
-import com.example.advertpal.utils.GROUP_KEY
+import com.example.advertpal.utils.GROUP_ID_KEY
 import com.example.advertpal.utils.SharedPrefWrapper
 import kotlinx.android.synthetic.main.activity_groups.*
 import javax.inject.Inject
@@ -50,7 +50,7 @@ class GroupsActivity : AppCompatActivity() {
 
     private fun startAddingActivity(group: Group) {
         val intent = Intent(this, AddWorkActivity::class.java).apply {
-            putExtra(GROUP_KEY, group)
+            putExtra(GROUP_ID_KEY, group)
         }
         startActivity(intent)
     }
