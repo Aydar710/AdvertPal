@@ -65,7 +65,7 @@ class AddWorkActivity : AppCompatActivity() {
             .Builder(PostWorker::class.java, periodicity.toLong(), TimeUnit.MINUTES)
             .setConstraints(constraints)
             .setInputData(data)
-            .addTag(work.id.toString())
+            .addTag("1")
             .build()
 
         WorkManager.getInstance().enqueue(periodicPostWorkRequest)

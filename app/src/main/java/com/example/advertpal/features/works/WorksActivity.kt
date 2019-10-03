@@ -28,14 +28,19 @@ class WorksActivity : AppCompatActivity() {
         setContentView(R.layout.activity_works)
         App.component.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[WorksViewModel::class.java]
-        initObservers()
         initRecycler()
+        initObservers()
 
         viewModel.getWorks("116812347")
 
         fb_add.setOnClickListener {
             startActivity(Intent(this, GroupsActivity::class.java))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getWorks("116812347")
     }
 
     private fun initRecycler() {

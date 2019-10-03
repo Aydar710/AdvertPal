@@ -2,6 +2,7 @@ package com.example.advertpal.features.works
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
+import androidx.work.WorkManager
 import com.example.advertpal.base.BaseViewModel
 import com.example.advertpal.data.models.works.Work
 import com.example.advertpal.data.repositories.FireStoreRepository
@@ -50,6 +51,7 @@ class WorksViewModel
                         }
                     }
                     worksLiveData.value = changedWorks
+                    WorkManager.getInstance().cancelAllWorkByTag("1")
                 }
             }, {
                 it.printStackTrace()
