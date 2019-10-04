@@ -51,7 +51,7 @@ class WorksViewModel
                         }
                     }
                     worksLiveData.value = changedWorks
-                    WorkManager.getInstance().cancelAllWorkByTag("1")
+                    WorkManager.getInstance().cancelAllWorkByTag(workId.toString())
                 }
             }, {
                 it.printStackTrace()

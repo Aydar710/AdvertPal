@@ -7,15 +7,13 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Toast
 import androidx.work.*
 import com.example.advertpal.App
 import com.example.advertpal.R
 import com.example.advertpal.data.models.groups.Group
 import com.example.advertpal.features.works.WorksViewModel
-import com.example.advertpal.utils.GROUP_ID_KEY
-import com.example.advertpal.utils.POST_TEXT_KEY
-import com.example.advertpal.utils.PostWorker
-import com.example.advertpal.utils.SharedPrefWrapper
+import com.example.advertpal.utils.*
 import kotlinx.android.synthetic.main.activity_add_work.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -42,6 +40,8 @@ class AddWorkActivity : AppCompatActivity() {
 
         btn_start_job.setOnClickListener {
             startWork(group as Group)
+            finish()
+            Toast.makeText(this, "Периодическая публикация запущена", Toast.LENGTH_SHORT).show()
         }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[WorksViewModel::class.java]
@@ -58,6 +58,7 @@ class AddWorkActivity : AppCompatActivity() {
         val data = Data.Builder()
             .putString(POST_TEXT_KEY, work.text)
             .putString(GROUP_ID_KEY, work.group?.id.toString())
+            .putString(WORK_ID_KEY, work.id.toString())
             .build()
 
         val periodicity = if (work.periodicity.isNotEmpty()) work.periodicity.toInt() else 15
@@ -65,7 +66,7 @@ class AddWorkActivity : AppCompatActivity() {
             .Builder(PostWorker::class.java, periodicity.toLong(), TimeUnit.MINUTES)
             .setConstraints(constraints)
             .setInputData(data)
-            .addTag("1")
+            .addTag(work.id.toString())
             .build()
 
         WorkManager.getInstance().enqueue(periodicPostWorkRequest)
@@ -73,7 +74,7 @@ class AddWorkActivity : AppCompatActivity() {
 
         WorkManager.getInstance().getWorkInfoByIdLiveData(periodicPostWorkRequest.id)
             .observe(this, Observer {
-                Log.i("WorkState", it?.state.toString())
+                Log.i("WorkState", "${it?.tags?.toString()} is  ${it?.state.toString()}")
             })
     }
 }
