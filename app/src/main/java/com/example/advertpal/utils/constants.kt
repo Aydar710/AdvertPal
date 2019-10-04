@@ -19,6 +19,8 @@ const val GROUP_ID_KEY = "groupIdKey"
 
 const val WORK_ID_KEY = "workIdKey"
 
+const val ENTITY_TOKEN_NAME = "tokenValue"
+
 const val AUTH_URL = "https://oauth.vk.com/authorize?client_id=7007361&display=mobile&redirect_uri=https://oauth.vk.com/blank.html&scope=groups,wall&response_type=token&v=5.101&state=123456"
 
 const val WORK_EXTRA = "groupExtra"

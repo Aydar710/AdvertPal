@@ -81,4 +81,7 @@ dependencies {
 
     //CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    //Conceal
+    implementation 'com.facebook.conceal:conceal:2.0.1@aar'
 }
