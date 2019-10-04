@@ -36,6 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:maxLines="1"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp"
             app:layout_constraintRight_toLeftOf="@id/ic_delete"

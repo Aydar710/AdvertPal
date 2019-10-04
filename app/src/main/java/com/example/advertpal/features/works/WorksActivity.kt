@@ -9,7 +9,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.example.advertpal.App
 import com.example.advertpal.R
+import com.example.advertpal.data.models.works.Work
+import com.example.advertpal.features.details.DetailsActivity
 import com.example.advertpal.features.groups.GroupsActivity
+import com.example.advertpal.utils.WORK_EXTRA
 import kotlinx.android.synthetic.main.activity_works.*
 import javax.inject.Inject
 
@@ -44,19 +47,30 @@ class WorksActivity : AppCompatActivity() {
     }
 
     private fun initRecycler() {
-        adapter = WorksAdapter{
+        adapter = WorksAdapter({
             onDeleteClicked(it)
-        }
+        }, {
+            onGroupClicked(it)
+        })
         rv_works.adapter = adapter
     }
 
-    private fun initObservers(){
+    private fun initObservers() {
         viewModel.worksLiveData.observe(this, Observer {
             adapter.submitList(it)
         })
     }
 
-    private fun onDeleteClicked(workId : Long){
+    private fun onDeleteClicked(workId: Long) {
         viewModel.deleteWork(workId)
+    }
+
+    private fun onGroupClicked(work: Work) {
+        val detailsIntent = Intent(this, DetailsActivity::class.java)
+            .apply {
+                putExtra(WORK_EXTRA, work)
+            }
+
+        startActivity(detailsIntent)
     }
 }
