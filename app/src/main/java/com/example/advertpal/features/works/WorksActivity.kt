@@ -12,7 +12,6 @@ import com.example.advertpal.base.BaseActivity
 import com.example.advertpal.data.models.works.Work
 import com.example.advertpal.features.details.DetailsActivity
 import com.example.advertpal.features.groups.GroupsActivity
-import com.example.advertpal.utils.NetworkStateChangeReceiver
 import com.example.advertpal.utils.WORK_EXTRA
 import kotlinx.android.synthetic.main.activity_works.*
 import javax.inject.Inject
@@ -35,8 +34,8 @@ class WorksActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[WorksViewModel::class.java]
         initRecycler()
         initObservers()
-        checkConnection()
         initNetworkSnackBar(R.id.activity_works)
+        checkConnection()
         showData()
         fb_add.setOnClickListener {
             startActivity(Intent(this, GroupsActivity::class.java))
@@ -81,9 +80,4 @@ class WorksActivity : BaseActivity() {
         startActivity(detailsIntent)
     }
 
-    private fun checkConnection() {
-        val hasConnection = NetworkStateChangeReceiver.isConnectedToInternet(this)
-        if (!hasConnection)
-            networkSnackBar.show()
-    }
 }

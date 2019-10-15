@@ -46,4 +46,10 @@ abstract class BaseActivity : AppCompatActivity() {
             }
         }, intentFilter)
     }
+
+    protected fun checkConnection() {
+        val hasConnection = NetworkStateChangeReceiver.isConnectedToInternet(this)
+        if (!hasConnection)
+            networkSnackBar.show()
+    }
 }

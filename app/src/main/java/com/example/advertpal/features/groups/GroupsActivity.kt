@@ -40,6 +40,7 @@ class GroupsActivity : BaseActivity() {
         rv_groups.adapter = adapter
         initObservers()
         initNetworkSnackBar(R.id.activity_groups)
+        checkConnection()
         showData()
     }
 
