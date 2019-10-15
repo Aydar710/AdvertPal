@@ -6,17 +6,19 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.example.advertpal.App
 import com.example.advertpal.R
+import com.example.advertpal.base.BaseActivity
 import com.example.advertpal.data.models.works.Work
 import com.example.advertpal.features.details.DetailsActivity
 import com.example.advertpal.features.groups.GroupsActivity
+import com.example.advertpal.utils.NetworkStateChangeReceiver
 import com.example.advertpal.utils.WORK_EXTRA
 import kotlinx.android.synthetic.main.activity_works.*
 import javax.inject.Inject
 
-class WorksActivity : AppCompatActivity() {
+
+class WorksActivity : BaseActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -33,16 +35,21 @@ class WorksActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[WorksViewModel::class.java]
         initRecycler()
         initObservers()
-
-        viewModel.getWorks("116812347")
-
+        checkConnection()
+        initNetworkSnackBar(R.id.activity_works)
+        showData()
         fb_add.setOnClickListener {
             startActivity(Intent(this, GroupsActivity::class.java))
         }
+
     }
 
     override fun onResume() {
         super.onResume()
+        viewModel.getWorks("116812347")
+    }
+
+    override fun showData() {
         viewModel.getWorks("116812347")
     }
 
@@ -72,5 +79,11 @@ class WorksActivity : AppCompatActivity() {
             }
 
         startActivity(detailsIntent)
+    }
+
+    private fun checkConnection() {
+        val hasConnection = NetworkStateChangeReceiver.isConnectedToInternet(this)
+        if (!hasConnection)
+            networkSnackBar.show()
     }
 }

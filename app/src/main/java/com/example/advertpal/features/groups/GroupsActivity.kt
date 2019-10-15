@@ -5,9 +5,9 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.example.advertpal.App
 import com.example.advertpal.R
+import com.example.advertpal.base.BaseActivity
 import com.example.advertpal.data.models.groups.Group
 import com.example.advertpal.ui.AddWorkActivity
 import com.example.advertpal.utils.GROUP_ID_KEY
@@ -15,7 +15,7 @@ import com.example.advertpal.utils.SharedPrefWrapper
 import kotlinx.android.synthetic.main.activity_groups.*
 import javax.inject.Inject
 
-class GroupsActivity : AppCompatActivity() {
+class GroupsActivity : BaseActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -39,6 +39,11 @@ class GroupsActivity : AppCompatActivity() {
         }
         rv_groups.adapter = adapter
         initObservers()
+        initNetworkSnackBar(R.id.activity_groups)
+        showData()
+    }
+
+    override fun showData() {
         viewModel.showGroups(sPref.getUserId())
     }
 
