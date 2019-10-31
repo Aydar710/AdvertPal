@@ -2,6 +2,7 @@ package com.example.advertpal.di.component
 
 import android.content.Context
 import com.example.advertpal.di.module.*
+import com.example.advertpal.features.details.DetailsActivity
 import com.example.advertpal.features.groups.GroupsActivity
 import com.example.advertpal.features.works.WorksActivity
 import com.example.advertpal.ui.AddWorkActivity
@@ -34,4 +35,6 @@ interface AppComponent {
     fun inject(groupsActivity: GroupsActivity)
 
     fun inject(worksActivity: WorksActivity)
+
+    fun inject(detailsActivity: DetailsActivity)
 }

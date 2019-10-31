@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
 import com.example.advertpal.App
 import com.example.advertpal.R
 import com.example.advertpal.base.BaseActivity
@@ -13,6 +14,7 @@ import com.example.advertpal.base.Commands
 import com.example.advertpal.data.models.works.Work
 import com.example.advertpal.features.details.DetailsActivity
 import com.example.advertpal.features.groups.GroupsActivity
+import com.example.advertpal.utils.USER_ID_EXTRA
 import com.example.advertpal.utils.WORK_EXTRA
 import kotlinx.android.synthetic.main.activity_works.*
 import javax.inject.Inject
@@ -31,6 +33,8 @@ class WorksActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_works)
+        setSupportActionBar(inc_toolbar as Toolbar)
+
         App.component.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[WorksViewModel::class.java]
         initRecycler()
@@ -43,11 +47,13 @@ class WorksActivity : BaseActivity() {
             startActivity(Intent(this, GroupsActivity::class.java))
         }
 
+        progressBar = pb_works
+
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.getWorks("116812347")
+        showData()
     }
 
     override fun showData() {
@@ -58,7 +64,7 @@ class WorksActivity : BaseActivity() {
         adapter = WorksAdapter({
             onDeleteClicked(it)
         }, {
-            onGroupClicked(it)
+            onGroupClicked(it, "116812347")
         })
         rv_works.adapter = adapter
     }
@@ -82,10 +88,11 @@ class WorksActivity : BaseActivity() {
         viewModel.deleteWork(workId)
     }
 
-    private fun onGroupClicked(work: Work) {
+    private fun onGroupClicked(work: Work, userId : String) {
         val detailsIntent = Intent(this, DetailsActivity::class.java)
             .apply {
                 putExtra(WORK_EXTRA, work)
+                putExtra(USER_ID_EXTRA, userId)
             }
 
         startActivity(detailsIntent)

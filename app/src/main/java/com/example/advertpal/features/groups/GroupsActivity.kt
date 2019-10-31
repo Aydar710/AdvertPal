@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
 import com.example.advertpal.App
 import com.example.advertpal.R
 import com.example.advertpal.base.BaseActivity
@@ -32,6 +33,7 @@ class GroupsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
         App.component.inject(this)
+        setSupportActionBar(inc_toolbar as Toolbar)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[GroupsViewModel::class.java]
         progressBar = pb_groups
