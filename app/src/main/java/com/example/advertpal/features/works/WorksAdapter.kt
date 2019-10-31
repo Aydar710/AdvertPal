@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.example.advertpal.R
 import com.example.advertpal.data.models.works.Work
 import com.squareup.picasso.Picasso
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.item_work.view.*
 
 class WorksAdapter(
     private val onDeleteClickListener: (Long) -> Unit,
-    private val onWorkClickListener: (Work) -> Unit
+    private val onWorkClickListener: (Work, ImageView) -> Unit
 ) : ListAdapter<Work, WorksAdapter.WorkHolder>(WorksDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): WorkHolder {
@@ -34,6 +35,7 @@ class WorksAdapter(
 
             Picasso.get()
                 .load(work.group?.photo100)
+                .placeholder(R.drawable.placeholder)
                 .into(containerView.iv_group)
 
             containerView.ic_delete.setOnClickListener {
@@ -41,7 +43,7 @@ class WorksAdapter(
             }
 
             containerView.setOnClickListener {
-                onWorkClickListener.invoke(work)
+                onWorkClickListener.invoke(work, containerView.iv_group)
             }
         }
     }

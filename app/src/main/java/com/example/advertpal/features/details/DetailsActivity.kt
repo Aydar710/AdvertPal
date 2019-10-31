@@ -9,13 +9,15 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import com.example.advertpal.App
-import com.example.advertpal.R
 import com.example.advertpal.data.models.works.Work
 import com.example.advertpal.features.works.WorksViewModel
 import com.example.advertpal.utils.USER_ID_EXTRA
 import com.example.advertpal.utils.WORK_EXTRA
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
+
+
+
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -34,8 +36,10 @@ class DetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details)
+        setContentView(com.example.advertpal.R.layout.activity_details)
         setSupportActionBar(inc_toolbar as Toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         App.component.inject(this)
 
@@ -47,27 +51,30 @@ class DetailsActivity : AppCompatActivity() {
         DetailsViewHolder(this).bind(work)
 
         snackbarDeleted = Snackbar
-            .make(findViewById(R.id.activity_details), "Удалено", Snackbar.LENGTH_INDEFINITE)
+            .make(findViewById(com.example.advertpal.R.id.activity_details), "Удалено", Snackbar.LENGTH_INDEFINITE)
             .setAction("Восстановить") {
                 viewModel.addWork(work, userId)
                 isDeleted = false
                 hideSnackbar()
             }
-    }
 
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.mnu_details, menu)
+        menuInflater.inflate(com.example.advertpal.R.menu.mnu_details, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_delete -> {
+            com.example.advertpal.R.id.action_delete -> {
                 if (!isDeleted) {
                     snackbarDeleted.show()
                     isDeleted = true
                     viewModel.deleteWork(work.id)
                 }
+            }
+            android.R.id.home -> {
+                onBackPressed()
             }
         }
         return true

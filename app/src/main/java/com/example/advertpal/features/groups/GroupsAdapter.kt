@@ -40,6 +40,7 @@ class GroupsAdapter(
 
             Picasso.get()
                 .load(group.photo100)
+                .placeholder(R.drawable.placeholder)
                 .into(imgGroup)
 
         }

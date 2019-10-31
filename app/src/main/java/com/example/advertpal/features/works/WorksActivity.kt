@@ -6,9 +6,11 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
+import android.widget.ImageView
 import com.example.advertpal.App
-import com.example.advertpal.R
 import com.example.advertpal.base.BaseActivity
 import com.example.advertpal.base.Commands
 import com.example.advertpal.data.models.works.Work
@@ -18,7 +20,6 @@ import com.example.advertpal.utils.USER_ID_EXTRA
 import com.example.advertpal.utils.WORK_EXTRA
 import kotlinx.android.synthetic.main.activity_works.*
 import javax.inject.Inject
-
 
 class WorksActivity : BaseActivity() {
 
@@ -32,15 +33,14 @@ class WorksActivity : BaseActivity() {
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_works)
+        setContentView(com.example.advertpal.R.layout.activity_works)
         setSupportActionBar(inc_toolbar as Toolbar)
-
         App.component.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[WorksViewModel::class.java]
         initRecycler()
         initObservers()
         initCommandObservers()
-        initNetworkSnackBar(R.id.activity_works)
+        initNetworkSnackBar(com.example.advertpal.R.id.activity_works)
         checkConnection()
         showData()
         fb_add.setOnClickListener {
@@ -63,8 +63,8 @@ class WorksActivity : BaseActivity() {
     private fun initRecycler() {
         adapter = WorksAdapter({
             onDeleteClicked(it)
-        }, {
-            onGroupClicked(it, "116812347")
+        }, { work, imageView ->
+            onGroupClicked(work, "116812347", imageView)
         })
         rv_works.adapter = adapter
     }
@@ -88,14 +88,19 @@ class WorksActivity : BaseActivity() {
         viewModel.deleteWork(workId)
     }
 
-    private fun onGroupClicked(work: Work, userId : String) {
+    private fun onGroupClicked(work: Work, userId: String, image: ImageView) {
         val detailsIntent = Intent(this, DetailsActivity::class.java)
             .apply {
                 putExtra(WORK_EXTRA, work)
                 putExtra(USER_ID_EXTRA, userId)
             }
 
-        startActivity(detailsIntent)
+        val options = ViewCompat.getTransitionName(image)?.let {
+            ActivityOptionsCompat
+                .makeSceneTransitionAnimation(this, image, it)
+        }
+
+        startActivity(detailsIntent, options?.toBundle())
     }
 
 }

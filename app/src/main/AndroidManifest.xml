@@ -4,8 +4,8 @@
         package="com.example.advertpal">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
             android:name=".App"
@@ -16,7 +16,12 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".features.details.DetailsActivity" />
+        <activity android:name=".features.details.DetailsActivity">
+        <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".features.works.WorksActivity" />
+        </activity>
+
         <activity android:name=".features.works.WorksActivity" />
         <activity android:name=".features.groups.GroupsActivity" />
         <activity
@@ -30,10 +35,12 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".utils.NetworkStateChangeReceiver"
+        <receiver
+                android:name=".utils.NetworkStateChangeReceiver"
                 android:exported="false">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                <action
+                        android:name="android.net.conn.CONNECTIVITY_CHANGE"
                         tools:ignore="BatteryLife" />
             </intent-filter>
         </receiver>
