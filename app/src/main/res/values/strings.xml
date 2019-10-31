@@ -4,4 +4,5 @@
     <integer name="com_vk_sdk_AppId">7007361</integer>
     <string name="vk_api_version">5.92</string>
     <string name="delete">Удалить</string>
+    <string name="enter_post_text">Введите текст поста</string>
 </resources>

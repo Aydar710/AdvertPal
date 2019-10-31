@@ -15,4 +15,32 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <style name="BaseText" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="BaseText.Text20">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+    </style>
+
+    <style name="BaseText.Text18">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+    </style>
+
+    <style name="BaseText.PlainText20">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="BaseText.Black16">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="BaseText.DarkerGray14">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
+
 </resources>

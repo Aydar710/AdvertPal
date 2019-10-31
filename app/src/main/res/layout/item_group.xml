@@ -6,8 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_group"
@@ -21,13 +21,12 @@
 
     <TextView
             android:id="@+id/txt_group_name"
+            style="@style/BaseText.Black16"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:maxLength="20"
             android:layout_marginStart="16dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
+            android:alpha="0.8"
+            android:maxLength="20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/img_group"
             app:layout_constraintTop_toTopOf="parent"
