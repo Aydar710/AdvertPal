@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.example.advertpal.App
@@ -25,11 +26,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(com.example.advertpal.R.layout.activity_main)
         App.component.inject(this)
 
-        sPref.saveToken("mnb")
-        sPref.saveUserId("116812347")
-        startActivity(Intent(this@MainActivity, WorksActivity::class.java))
-        finish()
-
         wv_auth.settings.javaScriptEnabled = true
         wv_auth.webViewClient = object : WebViewClient() {
 
@@ -37,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
                 url?.let {
                     if (it.contains("access_token") && it.contains("user_id")) {
+                        wv_auth.visibility = View.INVISIBLE
                         val token = getFieldFromUrl(url, "access_token")
                         val userId = getFieldFromUrl(url, "user_id")
                         sPref.saveToken(token)

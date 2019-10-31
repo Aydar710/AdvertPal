@@ -1,9 +1,12 @@
 package com.example.advertpal.features.works
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import androidx.work.WorkManager
 import com.example.advertpal.base.BaseViewModel
+import com.example.advertpal.base.Commands
+import com.example.advertpal.base.SingleLiveEvent
 import com.example.advertpal.data.models.works.Work
 import com.example.advertpal.data.repositories.FireStoreRepository
 import com.example.advertpal.utils.SharedPrefWrapper
@@ -16,6 +19,11 @@ class WorksViewModel
 ) : BaseViewModel() {
 
     val worksLiveData = MutableLiveData<List<Work>>()
+
+    private val _command: SingleLiveEvent<Commands> = SingleLiveEvent()
+
+    val command: LiveData<Commands>
+        get() = _command
 
     fun addWork(work: Work, userId: String) {
         repository.addWork(work, userId)

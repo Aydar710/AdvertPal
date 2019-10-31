@@ -8,6 +8,7 @@ import android.os.Bundle
 import com.example.advertpal.App
 import com.example.advertpal.R
 import com.example.advertpal.base.BaseActivity
+import com.example.advertpal.base.Commands
 import com.example.advertpal.data.models.groups.Group
 import com.example.advertpal.ui.AddWorkActivity
 import com.example.advertpal.utils.GROUP_ID_KEY
@@ -25,7 +26,7 @@ class GroupsActivity : BaseActivity() {
     private lateinit var adapter: GroupsAdapter
 
     @Inject
-    lateinit var sPref : SharedPrefWrapper
+    lateinit var sPref: SharedPrefWrapper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +34,10 @@ class GroupsActivity : BaseActivity() {
         App.component.inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[GroupsViewModel::class.java]
-
-        adapter = GroupsAdapter {
-            startAddingActivity(it)
-        }
-        rv_groups.adapter = adapter
+        progressBar = pb_groups
+        initRecycler()
         initObservers()
+        initCommandObservers()
         initNetworkSnackBar(R.id.activity_groups)
         checkConnection()
         showData()
@@ -54,10 +53,26 @@ class GroupsActivity : BaseActivity() {
         })
     }
 
+    private fun initCommandObservers() {
+        viewModel.command.observe(this, Observer {
+            when(it){
+                is Commands.ShowProgress -> showProgress()
+                is Commands.HideProgress -> hideProgress()
+            }
+        })
+    }
+
     private fun startAddingActivity(group: Group) {
         val intent = Intent(this, AddWorkActivity::class.java).apply {
             putExtra(GROUP_ID_KEY, group)
         }
         startActivity(intent)
+    }
+
+    private fun initRecycler() {
+        adapter = GroupsAdapter {
+            startAddingActivity(it)
+        }
+        rv_groups.adapter = adapter
     }
 }

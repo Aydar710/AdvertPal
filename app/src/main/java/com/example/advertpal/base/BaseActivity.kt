@@ -8,11 +8,15 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.ProgressBar
 import com.example.advertpal.utils.NetworkStateChangeReceiver
 
 abstract class BaseActivity : AppCompatActivity() {
 
     protected lateinit var networkSnackBar: Snackbar
+
+    protected var progressBar: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +26,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected abstract fun showData()
 
-    protected fun initNetworkSnackBar(activityRes : Int) {
+    protected fun initNetworkSnackBar(activityRes: Int) {
         networkSnackBar = Snackbar.make(
             findViewById(activityRes),
             "Нет соединения",
@@ -39,7 +43,7 @@ abstract class BaseActivity : AppCompatActivity() {
                     intent.getBooleanExtra(NetworkStateChangeReceiver.IS_NETWORK_AVAILABLE, false)
                 if (!isNetworkAvailable)
                     networkSnackBar.show()
-                else{
+                else {
                     networkSnackBar.dismiss()
                     showData()
                 }
@@ -51,5 +55,13 @@ abstract class BaseActivity : AppCompatActivity() {
         val hasConnection = NetworkStateChangeReceiver.isConnectedToInternet(this)
         if (!hasConnection)
             networkSnackBar.show()
+    }
+
+    protected fun showProgress() {
+        progressBar?.visibility = View.VISIBLE
+    }
+
+    protected fun hideProgress() {
+        progressBar?.visibility = View.GONE
     }
 }

@@ -1,8 +1,11 @@
 package com.example.advertpal.features.groups
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.example.advertpal.base.BaseViewModel
+import com.example.advertpal.base.Commands
+import com.example.advertpal.base.SingleLiveEvent
 import com.example.advertpal.data.models.groups.Group
 import com.example.advertpal.data.repositories.VkRepository
 import com.example.advertpal.utils.SharedPrefWrapper
@@ -18,17 +21,26 @@ class GroupsViewModel
 
     val groupsLiveData = MutableLiveData<List<Group>>()
 
+    protected val _command: SingleLiveEvent<Commands> = SingleLiveEvent()
+
+    val command: LiveData<Commands>
+        get() = _command
+
     @SuppressLint("CheckResult")
-    fun showGroups(userId : String) {
+    fun showGroups(userId: String) {
         repository.getUserGroups(userId, sPref.getToken())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 compositDisposable.add(it)
+                _command.value = Commands.ShowProgress()
+            }
+            .doFinally {
+                _command.value = Commands.HideProgress()
             }
             .subscribe({
                 groupsLiveData.postValue(it)
-            },{
+            }, {
                 it.printStackTrace()
             })
     }
