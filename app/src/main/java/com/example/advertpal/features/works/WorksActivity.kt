@@ -9,6 +9,7 @@ import android.os.Bundle
 import com.example.advertpal.App
 import com.example.advertpal.R
 import com.example.advertpal.base.BaseActivity
+import com.example.advertpal.base.Commands
 import com.example.advertpal.data.models.works.Work
 import com.example.advertpal.features.details.DetailsActivity
 import com.example.advertpal.features.groups.GroupsActivity
@@ -34,6 +35,7 @@ class WorksActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[WorksViewModel::class.java]
         initRecycler()
         initObservers()
+        initCommandObservers()
         initNetworkSnackBar(R.id.activity_works)
         checkConnection()
         showData()
@@ -64,6 +66,15 @@ class WorksActivity : BaseActivity() {
     private fun initObservers() {
         viewModel.worksLiveData.observe(this, Observer {
             adapter.submitList(it)
+        })
+    }
+
+    private fun initCommandObservers() {
+        viewModel.command.observe(this, Observer {
+            when (it) {
+                is Commands.ShowProgress -> showProgress()
+                is Commands.HideProgress -> hideProgress()
+            }
         })
     }
 

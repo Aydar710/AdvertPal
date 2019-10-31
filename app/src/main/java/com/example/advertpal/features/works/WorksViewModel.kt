@@ -33,6 +33,10 @@ class WorksViewModel
         repository.getWorks(userId)
             .doOnSubscribe {
                 compositDisposable.add(it)
+                _command.value = Commands.ShowProgress()
+            }
+            .doFinally {
+                _command.value = Commands.HideProgress()
             }
             .subscribe({
                 worksLiveData.setValue(it)
