@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        package="com.example.advertpal">
+        package="com.aydar.advertpal">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-            android:name=".App"
+            android:name="com.aydar.advertpal.App"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -16,25 +16,25 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".features.details.DetailsActivity">
+        <activity android:name="com.aydar.advertpal.features.details.DetailsActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".features.works.WorksActivity" />
+                    android:value="com.aydar.advertpal.features.works.WorksActivity" />
         </activity>
 
-        <activity android:name=".features.works.WorksActivity"
+        <activity android:name="com.aydar.advertpal.features.works.WorksActivity"
                 android:label="Текущие публикации"/>
         <activity
-                android:name=".features.groups.GroupsActivity"
+                android:name="com.aydar.advertpal.features.groups.GroupsActivity"
                 android:label="Выберите группу" />
         <activity
-                android:name=".ui.AddWorkActivity"
+                android:name="com.aydar.advertpal.ui.AddWorkActivity"
                 android:windowSoftInputMode="stateHidden|adjustPan">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".features.groups.GroupsActivity" />
+                    android:value="com.aydar.advertpal.features.groups.GroupsActivity" />
         </activity>
-        <activity android:name=".ui.MainActivity">
+        <activity android:name="com.aydar.advertpal.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,7 +43,7 @@
         </activity>
 
         <receiver
-                android:name=".utils.NetworkStateChangeReceiver"
+                android:name="com.aydar.advertpal.utils.NetworkStateChangeReceiver"
                 android:exported="false">
             <intent-filter>
                 <action
