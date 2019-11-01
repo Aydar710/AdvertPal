@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.widget.Toast
 import androidx.work.*
@@ -34,17 +35,27 @@ class AddWorkActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_work)
+        setSupportActionBar(inc_toolbar as Toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
         App.component.inject(this)
         viewHolder = AddWorkViewHolder(this)
-        val group = intent.getSerializableExtra(GROUP_ID_KEY)
+        val group : Group = intent.getSerializableExtra(GROUP_ID_KEY) as Group
+        title = group.name
 
         btn_start_job.setOnClickListener {
-            startWork(group as Group)
+            startWork(group)
             finish()
             Toast.makeText(this, "Периодическая публикация запущена", Toast.LENGTH_SHORT).show()
         }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[WorksViewModel::class.java]
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun startWork(group: Group) {

@@ -40,6 +40,11 @@ class WorksViewModel
             }
             .subscribe({
                 worksLiveData.setValue(it)
+                if (it.isEmpty()){
+                    _command.value = Commands.HasNoWorks()
+                }else{
+                    _command.value = Commands.HasWorks()
+                }
             }, {
                 it.printStackTrace()
             })

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
+import android.view.View
 import android.widget.ImageView
 import com.example.advertpal.App
 import com.example.advertpal.base.BaseActivity
@@ -80,6 +81,8 @@ class WorksActivity : BaseActivity() {
             when (it) {
                 is Commands.ShowProgress -> showProgress()
                 is Commands.HideProgress -> hideProgress()
+                is Commands.HasNoWorks -> tv_on_empty_screen.visibility = View.VISIBLE
+                is Commands.HasWorks -> tv_on_empty_screen.visibility = View.GONE
             }
         })
     }
@@ -102,5 +105,4 @@ class WorksActivity : BaseActivity() {
 
         startActivity(detailsIntent, options?.toBundle())
     }
-
 }

@@ -17,16 +17,22 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".features.details.DetailsActivity">
-        <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".features.works.WorksActivity" />
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".features.works.WorksActivity" />
         </activity>
 
         <activity android:name=".features.works.WorksActivity" />
-        <activity android:name=".features.groups.GroupsActivity" />
+        <activity
+                android:name=".features.groups.GroupsActivity"
+                android:label="Выберите группу" />
         <activity
                 android:name=".ui.AddWorkActivity"
-                android:windowSoftInputMode="stateHidden|adjustPan" />
+                android:windowSoftInputMode="stateHidden|adjustPan">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".features.groups.GroupsActivity" />
+        </activity>
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -34,6 +34,8 @@ class GroupsActivity : BaseActivity() {
         setContentView(R.layout.activity_groups)
         App.component.inject(this)
         setSupportActionBar(inc_toolbar as Toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[GroupsViewModel::class.java]
         progressBar = pb_groups
@@ -47,6 +49,11 @@ class GroupsActivity : BaseActivity() {
 
     override fun showData() {
         viewModel.showGroups(sPref.getUserId())
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun initObservers() {
