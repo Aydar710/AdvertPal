@@ -31,7 +31,7 @@ class VkRepository(private val vkService: VkService) {
     fun getUserGroups(
         userId: String,
         token: String,
-        count: String = "15",
+        count: String = "300",
         currentPage: Int = 0,
         pageSize: Int = 0
     ): Single<List<Group>> =

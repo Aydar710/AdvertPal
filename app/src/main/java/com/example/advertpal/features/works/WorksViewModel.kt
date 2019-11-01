@@ -29,21 +29,21 @@ class WorksViewModel
         repository.addWork(work, userId)
     }
 
-    fun getWorks(userId: String) =
-        repository.getWorks(userId)
+    fun getWorks() =
+        repository.getWorks(sPref.getUserId())
             .doOnSubscribe {
                 compositDisposable.add(it)
-                _command.postValue(Commands.ShowProgress())
+                _command.value = Commands.ShowProgress()
             }
             .doFinally {
-                _command.postValue(Commands.HideProgress())
+                _command.value = Commands.HideProgress()
             }
             .subscribe({
                 worksLiveData.setValue(it)
                 if (it.isEmpty()) {
-                    _command.postValue(Commands.HasNoWorks())
+                    _command.value = Commands.HasNoWorks()
                 } else {
-                    _command.postValue(Commands.HasWorks())
+                    _command.value = Commands.HasWorks()
                 }
             }, {
                 it.printStackTrace()

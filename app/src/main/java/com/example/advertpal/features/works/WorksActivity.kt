@@ -68,7 +68,7 @@ class WorksActivity : BaseActivity() {
     }
 
     override fun showData() {
-        viewModel.getWorks("116812347")
+        viewModel.getWorks()
     }
 
     private fun initRecycler() {
