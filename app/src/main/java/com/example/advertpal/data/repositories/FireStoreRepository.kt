@@ -57,6 +57,12 @@ class FireStoreRepository {
                             singleEmitter.onSuccess(true)
                         }
                 }
+                .addOnFailureListener {
+                    singleEmitter.onError(Throwable("Ошибка при удалении"))
+                }
+                .addOnCanceledListener {
+                    singleEmitter.onError(Throwable("Ошибка при удалении"))
+                }
         }
     }
 

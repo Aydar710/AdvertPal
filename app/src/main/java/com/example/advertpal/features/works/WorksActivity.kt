@@ -6,12 +6,14 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.ImageView
 import com.example.advertpal.App
+import com.example.advertpal.R
 import com.example.advertpal.base.BaseActivity
 import com.example.advertpal.base.Commands
 import com.example.advertpal.data.models.works.Work
@@ -31,6 +33,8 @@ class WorksActivity : BaseActivity() {
 
     private lateinit var adapter: WorksAdapter
 
+    private lateinit var deletingWorkSnackBar: Snackbar
+
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +53,12 @@ class WorksActivity : BaseActivity() {
         }
 
         progressBar = pb_works
+
+        deletingWorkSnackBar = Snackbar.make(
+            findViewById(R.id.activity_works),
+            "Удаление",
+            Snackbar.LENGTH_INDEFINITE
+        )
 
     }
 
@@ -83,12 +93,25 @@ class WorksActivity : BaseActivity() {
                 is Commands.HideProgress -> hideProgress()
                 is Commands.HasNoWorks -> tv_on_empty_screen.visibility = View.VISIBLE
                 is Commands.HasWorks -> tv_on_empty_screen.visibility = View.GONE
+                is Commands.DeletingWorkInProgress -> deletingWorkSnackBar.show()
+                is Commands.WorkDeleted -> {
+                    deletingWorkSnackBar.dismiss()
+                    showShortSnackbar("Удалено")
+                }
+                is Commands.ErrorWhileDelete -> {
+                    deletingWorkSnackBar.dismiss()
+                    showShortSnackbar("Ошибка при удалении")
+                }
             }
         })
     }
 
     private fun onDeleteClicked(workId: Long) {
-        viewModel.deleteWork(workId)
+        if (hasConnection) {
+            viewModel.deleteWork(workId)
+        }else{
+            showShortToast("Невозможно удалить, отсутствует соединение")
+        }
     }
 
     private fun onGroupClicked(work: Work, userId: String, image: ImageView) {
@@ -104,5 +127,13 @@ class WorksActivity : BaseActivity() {
         }
 
         startActivity(detailsIntent, options?.toBundle())
+    }
+
+    private fun showShortSnackbar(text: String) {
+        Snackbar.make(
+            findViewById(R.id.activity_works),
+            text,
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 }

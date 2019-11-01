@@ -10,6 +10,7 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.Toast
 import com.example.advertpal.utils.NetworkStateChangeReceiver
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -17,6 +18,9 @@ abstract class BaseActivity : AppCompatActivity() {
     protected lateinit var networkSnackBar: Snackbar
 
     protected var progressBar: ProgressBar? = null
+
+    val hasConnection: Boolean
+        get() = NetworkStateChangeReceiver.isConnectedToInternet(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,5 +67,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected fun hideProgress() {
         progressBar?.visibility = View.GONE
+    }
+
+    protected fun showShortToast(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 }

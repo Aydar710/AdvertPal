@@ -33,17 +33,17 @@ class WorksViewModel
         repository.getWorks(userId)
             .doOnSubscribe {
                 compositDisposable.add(it)
-                _command.value = Commands.ShowProgress()
+                _command.postValue(Commands.ShowProgress())
             }
             .doFinally {
-                _command.value = Commands.HideProgress()
+                _command.postValue(Commands.HideProgress())
             }
             .subscribe({
                 worksLiveData.setValue(it)
-                if (it.isEmpty()){
-                    _command.value = Commands.HasNoWorks()
-                }else{
-                    _command.value = Commands.HasWorks()
+                if (it.isEmpty()) {
+                    _command.postValue(Commands.HasNoWorks())
+                } else {
+                    _command.postValue(Commands.HasWorks())
                 }
             }, {
                 it.printStackTrace()
@@ -51,16 +51,18 @@ class WorksViewModel
 
     @SuppressLint("CheckResult")
     fun deleteWork(workId: Long) {
-        //TODO: Correct
-        sPref.saveUserId("116812347")
         repository.deleteWork(workId, sPref.getUserId())
             .doOnSubscribe {
                 compositDisposable.add(it)
+                _command.value = Commands.DeletingWorkInProgress()
+            }
+            .doOnSuccess {
+                _command.value = Commands.WorkDeleted()
             }
             .subscribe({
                 if (it) {
                     val changedWorks = mutableListOf<Work>()
-                    worksLiveData.value?.let { it1 -> changedWorks.addAll(it1) }
+                    worksLiveData.value?.let { groups -> changedWorks.addAll(groups) }
                     changedWorks.forEach { work ->
                         if (work.id == workId) {
                             changedWorks.remove(work)
@@ -72,6 +74,7 @@ class WorksViewModel
                 }
             }, {
                 it.printStackTrace()
+                _command.value = Commands.ErrorWhileDelete()
             })
     }
 }
