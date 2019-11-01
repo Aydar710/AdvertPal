@@ -9,13 +9,15 @@ import com.example.advertpal.base.Commands
 import com.example.advertpal.base.SingleLiveEvent
 import com.example.advertpal.data.models.works.Work
 import com.example.advertpal.data.repositories.FireStoreRepository
+import com.example.advertpal.data.repositories.VkRepository
 import com.example.advertpal.utils.SharedPrefWrapper
 import javax.inject.Inject
 
 class WorksViewModel
 @Inject constructor(
     private val sPref: SharedPrefWrapper,
-    private val repository: FireStoreRepository
+    private val repository: FireStoreRepository,
+    private val vkRepository: VkRepository
 ) : BaseViewModel() {
 
     val worksLiveData = MutableLiveData<List<Work>>()
@@ -50,8 +52,8 @@ class WorksViewModel
             })
 
     @SuppressLint("CheckResult")
-    fun deleteWork(workId: Long) {
-        repository.deleteWork(workId, sPref.getUserId())
+    fun deleteWork(work: Work) {
+        repository.deleteWork(work.id, sPref.getUserId())
             .doOnSubscribe {
                 compositDisposable.add(it)
                 _command.value = Commands.DeletingWorkInProgress()
@@ -64,14 +66,22 @@ class WorksViewModel
                     val changedWorks = mutableListOf<Work>()
                     worksLiveData.value?.let { groups -> changedWorks.addAll(groups) }
                     changedWorks.forEach { work ->
-                        if (work.id == workId) {
+                        if (work.id == work.id) {
                             changedWorks.remove(work)
                             return@forEach
                         }
                     }
                     worksLiveData.value = changedWorks
-                    WorkManager.getInstance().cancelAllWorkByTag(workId.toString())
+                    WorkManager.getInstance().cancelAllWorkByTag(work.id.toString())
+
+                    vkRepository
+                        .deletePost(
+                            sPref.getPostId(workId = work.id.toString()),
+                            sPref.getToken(),
+                            work.group?.id.toString()
+                        )
                 }
+
             }, {
                 it.printStackTrace()
                 _command.value = Commands.ErrorWhileDelete()

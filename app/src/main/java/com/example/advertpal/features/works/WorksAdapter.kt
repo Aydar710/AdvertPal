@@ -13,7 +13,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_work.view.*
 
 class WorksAdapter(
-    private val onDeleteClickListener: (Long) -> Unit,
+    private val onDeleteClickListener: (Work) -> Unit,
     private val onWorkClickListener: (Work, ImageView) -> Unit
 ) : ListAdapter<Work, WorksAdapter.WorkHolder>(WorksDiffCallback()) {
 
@@ -39,7 +39,7 @@ class WorksAdapter(
                 .into(containerView.iv_group)
 
             containerView.ic_delete.setOnClickListener {
-                onDeleteClickListener.invoke(work.id)
+                onDeleteClickListener.invoke(work)
             }
 
             containerView.setOnClickListener {

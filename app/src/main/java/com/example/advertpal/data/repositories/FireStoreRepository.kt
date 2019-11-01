@@ -74,6 +74,5 @@ class FireStoreRepository {
             photo50 = this["photo50"] as String,
             photo100 = this["photo100"] as String,
             photo200 = this["photo200"] as String
-
         )
 }

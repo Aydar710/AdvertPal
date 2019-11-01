@@ -106,9 +106,9 @@ class WorksActivity : BaseActivity() {
         })
     }
 
-    private fun onDeleteClicked(workId: Long) {
+    private fun onDeleteClicked(work: Work) {
         if (hasConnection) {
-            viewModel.deleteWork(workId)
+            viewModel.deleteWork(work)
         }else{
             showShortToast("Невозможно удалить, отсутствует соединение")
         }
