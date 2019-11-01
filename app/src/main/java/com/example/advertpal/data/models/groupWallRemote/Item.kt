@@ -1,5 +1,6 @@
 package ru.timekeeper.data.network.model.groupWallRemote
 
+import com.example.advertpal.data.models.groupWallRemote.Attachment
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

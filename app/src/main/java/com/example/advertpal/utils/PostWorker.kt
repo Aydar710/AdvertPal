@@ -42,7 +42,7 @@ class PostWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         val workId = inputData.getString(WORK_ID_KEY)
         workId?.let {
             groupId?.let { grId ->
-                vkRepository.makePost("$text : $post_id", sPref.getToken(), grId)
+                vkRepository.makePost("$text", sPref.getToken(), grId)
                     .subscribe({ postId ->
                         sPref.savePostId(postId, workId)
                         Log.i("WorkState", "Post made, id : $postId")

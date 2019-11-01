@@ -22,7 +22,8 @@
                     android:value=".features.works.WorksActivity" />
         </activity>
 
-        <activity android:name=".features.works.WorksActivity" />
+        <activity android:name=".features.works.WorksActivity"
+                android:label="Текущие публикации"/>
         <activity
                 android:name=".features.groups.GroupsActivity"
                 android:label="Выберите группу" />

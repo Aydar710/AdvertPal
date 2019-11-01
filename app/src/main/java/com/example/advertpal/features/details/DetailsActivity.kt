@@ -47,6 +47,7 @@ class DetailsActivity : AppCompatActivity() {
 
         work = intent.getSerializableExtra(WORK_EXTRA) as Work
         userId = intent.getStringExtra(USER_ID_EXTRA)
+        title = work.group?.name
 
         DetailsViewHolder(this).bind(work)
 
